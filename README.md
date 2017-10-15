@@ -1,3 +1,2 @@
 # Flashcards 
-
-This is a native app built with React Native 
+This is a native app built with React Native
