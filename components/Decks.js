@@ -20,7 +20,10 @@ class Decks extends Component {
 			<ScrollView contentContainerStyle={styles.contentContainer}>
 				{ _.map(decks, (deck) => {
 					return (
-						<TouchableOpacity key={deck.title} onPress={() => {}}>
+						<TouchableOpacity key={deck.title} onPress={() => this.props.navigation.navigate(
+              				'Deck',
+              				{ title: deck.title }
+            			)}>
 							<View style={styles.deck}>
 								<Text style={styles.title}>{deck.title}</Text>
 								<Text style={styles.count}>{`${deck.cards.length} cards`}</Text>

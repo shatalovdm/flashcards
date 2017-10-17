@@ -1,7 +1,8 @@
-import { FETCH_DECKS, ADD_DECK } from '../actions';
+import { FETCH_DECKS, ADD_DECK, FETCH_DECK } from '../actions';
 
 export default function entries (state = {}, action) {
   switch (action.type) {
+    case FETCH_DECK:
     case FETCH_DECKS:
       return {
         ...state,
@@ -12,7 +13,7 @@ export default function entries (state = {}, action) {
         ...state,
         ...action.deck
       }
-    default :
+    default:
       return state
   }
 }

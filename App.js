@@ -9,6 +9,7 @@ import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Constants } from 'expo';
 import AddDeck from './components/AddDeck';
 import Decks from './components/Decks';
+import Deck from './components/Deck';
 
 function FlashcardsBar ({backgroundColor, ...props}) {
   return (
@@ -56,6 +57,16 @@ const Tabs = TabNavigator({
 const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs
+  },
+  Deck: {
+    screen: Deck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+        padding: 10
+      }
+    }
   }
 })
 
