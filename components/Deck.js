@@ -19,7 +19,10 @@ class Deck extends Component {
 	}
 
 	addCard() {
-
+		this.props.navigation.navigate(
+			'AddCard',
+			{ title: this.props.deck.title }
+		)
 	}
 
 	startQuiz() {
@@ -30,11 +33,11 @@ class Deck extends Component {
 		const deck = this.props.deck;
 		return (
 			<View style={styles.container}>
-				<View style={styles.textBox}>
+				<View>
 					<Text style={styles.title}>{deck.title}</Text>
 					<Text style={styles.count}>{`${deck.cards.length} cards`}</Text>
 				</View>
-				<View style={styles.buttonBox}>
+				<View>
 					<TouchableOpacity
 				      style={Platform.OS === 'ios' ? styles.iosCardBtn : styles.AndroidCardBtn}
 				      onPress={this.addCard.bind(this)}>

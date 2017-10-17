@@ -10,6 +10,7 @@ import { Constants } from 'expo';
 import AddDeck from './components/AddDeck';
 import Decks from './components/Decks';
 import Deck from './components/Deck';
+import AddCard from './components/AddCard';
 
 function FlashcardsBar ({backgroundColor, ...props}) {
   return (
@@ -60,6 +61,16 @@ const MainNavigator = StackNavigator({
   },
   Deck: {
     screen: Deck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+        padding: 10
+      }
+    }
+  },
+  AddCard: {
+    screen: AddCard,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {
