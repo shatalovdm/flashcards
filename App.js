@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import reducer from './reducers';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { purple, white } from './utils/colors';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Constants } from 'expo';
 import AddDeck from './components/AddDeck';
 import Decks from './components/Decks';
@@ -23,7 +23,7 @@ const Tabs = TabNavigator({
     screen: Decks,
     navigationOptions: {
       tabBarLabel: 'Decks',
-      tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <MaterialCommunityIcons name='cards' size={30} color={tintColor} />
     }
   },
   AddDeck: {
