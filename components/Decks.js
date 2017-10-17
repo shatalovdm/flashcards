@@ -7,27 +7,11 @@ import { fetchDecks } from '../actions';
 import { getDecks } from '../utils/helpers';
 import _ from 'lodash';
 
-const decks = {
-	'udacity': {
-		title: 'Udacity',
-		cards: []
-	},
-	'rfwwf': {
-		title: 'wfwqe',
-		cards: []
-	},
-	'wefwew': {
-		title: 'ewfefw',
-		cards: []
-	}
-}
-
 class Decks extends Component {
 	componentDidMount() {
 		const { dispatch } = this.props;
-		// getDecks()
-		// 	.then((decks) => dispatch(fetchDecks(decks)));
-		dispatch(fetchDecks(decks));
+		getDecks()
+			.then((decks) => dispatch(fetchDecks(decks)));
 	}
 
 	render() {

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { KeyboardAvoidingView, View, TouchableOpacity, Text, TextInput, StyleSheet, Platform } from 'react-native'
+import { KeyboardAvoidingView, View, TouchableOpacity, Text, TextInput, StyleSheet, Platform, Keyboard } from 'react-native'
 import { Foundation } from '@expo/vector-icons';
 import { purple, white, brown, lightgrey } from '../utils/colors';
-import { addDeck } from '../actions';
 import { connect } from 'react-redux';
+import { addDeck } from '../actions';
+import { saveDeckTitle } from '../utils/helpers';
+import { NavigationActions } from 'react-navigation';
 
 class AddDeck extends Component {
 	constructor(props) {
@@ -12,8 +14,19 @@ class AddDeck extends Component {
 	}
 
 	submit() {
-		const title = this.state.title;
-
+		Keyboard.dismiss();
+		const title = this.state.title.trim();
+		this.props.dispatch(addDeck({
+	      	[title]: {
+	      		title: title,
+	      		cards: [] 
+	      	}
+	    }));
+		this.props.navigation.dispatch(NavigationActions.back({key: 'AddDeck'}));
+		saveDeckTitle(title);
+	    this.setState({
+	    	title: '' 
+	    });
 	}
 
 	render() {
@@ -31,7 +44,7 @@ class AddDeck extends Component {
 				</View>
 			    <TouchableOpacity
 			      style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
-			      onPress={this.submit}>
+			      onPress={this.submit.bind(this)}>
 			        <Text style={styles.submitBtnText}>SUBMIT</Text>
 			    </TouchableOpacity>
 			</KeyboardAvoidingView>
@@ -40,53 +53,52 @@ class AddDeck extends Component {
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 40,
-    backgroundColor: lightgrey
-  },
-  text: {
-    fontSize: 30,
-    color: brown,
-    textAlign: 'center',
-  },
-  inputBox: {
-  	paddingTop: 40,
-  	paddingBottom: 40
-  },
-  input: {
-  	borderWidth: 1,
-  	borderColor: 'black',
-  	height: 45,
-  	padding: 5,
-  	backgroundColor: white
-  },
-  iosSubmitBtn: {
-    backgroundColor: purple,
-    padding: 5,
-    borderRadius: 7,
-    height: 45,
-    marginLeft: 40,
-    marginRight: 40,
-  },
-  AndroidSubmitBtn: {
-    backgroundColor: purple,
-    padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
-    height: 45,
-    borderRadius: 2,
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  submitBtnText: {
-    color: white,
-    fontSize: 22,
-    textAlign: 'center',
-  }
+	contentContainer: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		padding: 40,
+		backgroundColor: lightgrey
+	},
+	text: {
+		fontSize: 30,
+		color: brown,
+		textAlign: 'center',
+	},
+	inputBox: {
+		paddingTop: 40,
+		paddingBottom: 40
+	},
+	input: {
+		borderWidth: 1,
+		borderColor: 'black',
+		height: 45,
+		padding: 5,
+		backgroundColor: white
+	},
+	iosSubmitBtn: {
+		backgroundColor: purple,
+		padding: 5,
+		borderRadius: 7,
+		height: 45,
+		marginLeft: 40,
+		marginRight: 40,
+	},
+	AndroidSubmitBtn: {
+		backgroundColor: purple,
+		padding: 10,
+		paddingLeft: 30,
+		paddingRight: 30,
+		height: 45,
+		borderRadius: 2,
+		alignSelf: 'flex-end',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	submitBtnText: {
+		color: white,
+		fontSize: 22,
+		textAlign: 'center',
+	}
 });
-
-export default connect(null, { addDeck })(AddDeck);
+export default connect(null)(AddDeck);

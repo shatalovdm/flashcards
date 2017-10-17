@@ -13,9 +13,12 @@ export function getDeck(key) {
 		.then(json => {return json[key]});
 }
 
-export function saveDeckTitle(key, title) {
+export function saveDeckTitle(title) {
 	return AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
-	    [key]: title
+	    [title]: {
+	    	title: title,
+	    	cards: []
+	    }
 	}));
 }
 
