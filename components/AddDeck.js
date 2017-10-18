@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { KeyboardAvoidingView, View, TouchableOpacity, Text, TextInput, StyleSheet, Platform, Keyboard } from 'react-native'
-import { Foundation } from '@expo/vector-icons';
 import { purple, white, brown, lightgrey } from '../utils/colors';
 import { connect } from 'react-redux';
 import { addDeck } from '../actions';
 import { saveDeckTitle } from '../utils/helpers';
-import { NavigationActions } from 'react-navigation';
 
 class AddDeck extends Component {
 	constructor(props) {

@@ -26,7 +26,10 @@ class Deck extends Component {
 	}
 
 	startQuiz() {
-
+		this.props.navigation.navigate(
+			'Quiz',
+			{ cards: this.props.deck.cards}
+		)
 	}
 
 	render() {
