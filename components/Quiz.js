@@ -86,6 +86,13 @@ export default class Quiz extends Component {
 			opacity: this.backOpacity
 		}
 		const cards = this.props.navigation.state.params.cards;
+		if (cards.length === 0) {
+			return (
+				<View style={styles.resultContainer}>
+					<Text style={styles.resultText}>Add a card to this deck before taking the quiz!</Text>
+				</View>
+			);
+		}
 		if (this.state.count === (cards.length + 1)) {
 			return (
 				<View style={styles.resultContainer}>
@@ -99,20 +106,16 @@ export default class Quiz extends Component {
 				<Text style={styles.count}>{`${this.state.count} / ${cards.length}`}</Text>
 				<View style={styles.cardBox}>
 					<Animated.View style={frontAnimatedStyle}>
-						<TouchableOpacity onPress={this.flipCard.bind(this)}>
-							<View style={styles.card}>
-								<Text style={styles.text}>{cards[(this.state.count - 1)].question}</Text>
-							    <Text style={styles.flipBtn}>Press To See Answer</Text>
-							</View>
-						</TouchableOpacity>
+						<View style={styles.card}>
+							<Text style={styles.text}>{cards[(this.state.count - 1)].question}</Text>
+						    <Text style={styles.flipBtn} onPress={this.flipCard.bind(this)}>Press To See Answer</Text>
+						</View>
 					</Animated.View>
 					<Animated.View style={[backAnimatedStyle, styles.cardBack]}>
-					    <TouchableOpacity onPress={this.flipCard.bind(this)}>
-					    	<View style={styles.card}>
-							    <Text style={styles.text}>{cards[(this.state.count - 1)].answer}</Text>
-							    <Text style={styles.flipBtn}>Press To See Question</Text>
-					    	</View>
-					    </TouchableOpacity>
+				    	<View style={styles.card}>
+						    <Text style={styles.text}>{cards[(this.state.count - 1)].answer}</Text>
+						    <Text style={styles.flipBtn} onPress={this.flipCard.bind(this)}>Press To See Question</Text>
+				    	</View>
 					</Animated.View>  
 				</View>
 				<View>
@@ -136,7 +139,9 @@ const styles = StyleSheet.create({
 	resultContainer: {
 		flex: 1,
 		flexDirection: 'column',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		padding: 40,
+		backgroundColor: lightgrey
 	},
 	resultText: {
 		textAlign: 'center',

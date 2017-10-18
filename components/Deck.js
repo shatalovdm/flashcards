@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
-import { getDeck } from '../utils/helpers';
+import { getDeck, setLocalNotification, clearLocalNotification } from '../utils/helpers';
 import { connect } from 'react-redux';
 import { fetchDeck } from '../actions';
 import { lightgrey, purple, white, brown, grey } from '../utils/colors';
@@ -30,6 +30,8 @@ class Deck extends Component {
 			'Quiz',
 			{ cards: this.props.deck.cards}
 		)
+		clearLocalNotification()
+			.then(setLocalNotification);
 	}
 
 	render() {
