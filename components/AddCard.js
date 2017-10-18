@@ -8,21 +8,17 @@ import { addCardToDeck } from '../utils/helpers';
 import { NavigationActions } from 'react-navigation';
 
 class AddCard extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { 
-			question: '',
-			answer: '' 
-		};
-	}
 
-	static navigationOptions = () => {
-		return {
-			title: 'Add Card'
-		}
-	}
+	state = { 
+		question: '',
+		answer: '' 
+	};
 
-	submit() {
+	static navigationOptions = () => ({
+		title: 'Add Card'
+	});
+
+	submit = () => {
 		Keyboard.dismiss();
 
 		const card = {
@@ -63,7 +59,7 @@ class AddCard extends Component {
 				</View>
 			    <TouchableOpacity
 			      style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}
-			      onPress={this.submit.bind(this)}>
+			      onPress={this.submit}>
 			        <Text style={styles.submitBtnText}>SUBMIT</Text>
 			    </TouchableOpacity>
 			</KeyboardAvoidingView>

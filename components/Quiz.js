@@ -8,12 +8,13 @@ import { addCardToDeck } from '../utils/helpers';
 import { NavigationActions } from 'react-navigation';
 
 export default class Quiz extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { 
-			count: 1,
-			result: 0 
-		};
+
+	state = { 
+		count: 1,
+		result: 0 
+	};
+
+	componentWillMount() {
 		this.animatedValue = new Animated.Value(0);
 		this.value = 0;
 		this.animatedValue.addListener(({ value }) => {
@@ -38,7 +39,7 @@ export default class Quiz extends Component {
 	}
 
 
-	flipCard() {
+	flipCard = () => {
 		if (this.value >= 90) {
 			Animated.spring(this.animatedValue,{
 				toValue: 0,
@@ -54,32 +55,34 @@ export default class Quiz extends Component {
 		}
 	}
 
-	correct() {
-		const count = this.state.count + 1;
-		const result = this.state.result + 1;
-		this.setState({
-			count,
-			result
-		});
+	correct = () => {
+		this.setState(state => ({
+			count: state.count + 1,
+			result: state.result + 1 
+		}));
 	}
 
-	incorrect() {
-		const count = this.state.count + 1;
-		const result = this.state.result;
+	incorrect = () => {
+		this.setState(state => ({
+			count: state.count + 1
+		}));
+	}
+
+	restartQuiz = () => {
 		this.setState({
-			count,
-			result
+			count: 1,
+			result: 0
 		});
 	}
 
 	render() {
-		const frontAnimatedStyle = {
+		const frontCard = {
 			transform: [
 				{ rotateY: this.frontInterpolate }
 			],
 			opacity: this.frontOpacity
 		}
-		const backAnimatedStyle = {
+		const backCard = {
 			transform: [
 				{ rotateY: this.backInterpolate }
 			],
@@ -96,8 +99,22 @@ export default class Quiz extends Component {
 		if (this.state.count === (cards.length + 1)) {
 			return (
 				<View style={styles.resultContainer}>
-					<Text style={styles.resultText}>Done!</Text>
-					<Text style={styles.resultText}>Your Score: {Math.floor((this.state.result / (this.state.count - 1)) * 100)}%</Text>
+					<View>
+						<Text style={styles.resultText}>Done!</Text>
+						<Text style={styles.resultText}>Your Score: {Math.round((this.state.result / (this.state.count - 1)) * 100)}%</Text>
+					</View>
+					<View>
+						<TouchableOpacity
+					      style={Platform.OS === 'ios' ? styles.iosFirstBtn : styles.AndroidFirstBtn}
+					      onPress={this.restartQuiz}>
+					        <Text style={styles.firstBtnText}>Restart Quiz</Text>
+					    </TouchableOpacity>
+					    <TouchableOpacity
+					      style={Platform.OS === 'ios' ? styles.iosSecondBtn : styles.AndroidSecondBtn}
+					      onPress={() => this.props.navigation.goBack()}>
+					        <Text style={styles.secondBtnText}>Back To Deck</Text>
+					    </TouchableOpacity>
+					</View>
 				</View>
 			);
 		}
@@ -105,29 +122,29 @@ export default class Quiz extends Component {
 			<View style={styles.container}>
 				<Text style={styles.count}>{`${this.state.count} / ${cards.length}`}</Text>
 				<View style={styles.cardBox}>
-					<Animated.View style={frontAnimatedStyle}>
+					<Animated.View style={frontCard}>
 						<View style={styles.card}>
 							<Text style={styles.text}>{cards[(this.state.count - 1)].question}</Text>
-						    <Text style={styles.flipBtn} onPress={this.flipCard.bind(this)}>Press To See Answer</Text>
+						    <Text style={styles.flipBtn} onPress={this.flipCard}>Press To See Answer</Text>
 						</View>
 					</Animated.View>
-					<Animated.View style={[backAnimatedStyle, styles.cardBack]}>
+					<Animated.View style={[backCard, styles.cardBack]}>
 				    	<View style={styles.card}>
 						    <Text style={styles.text}>{cards[(this.state.count - 1)].answer}</Text>
-						    <Text style={styles.flipBtn} onPress={this.flipCard.bind(this)}>Press To See Question</Text>
+						    <Text style={styles.flipBtn} onPress={this.flipCard}>Press To See Question</Text>
 				    	</View>
 					</Animated.View>  
 				</View>
 				<View>
 					<TouchableOpacity
-				      style={Platform.OS === 'ios' ? styles.iosCorrectBtn : styles.AndroidCorrectBtn}
-				      onPress={this.correct.bind(this)}>
-				        <Text style={styles.correctText}>Correct</Text>
+				      style={Platform.OS === 'ios' ? styles.iosFirstBtn : styles.AndroidFirstBtn}
+				      onPress={this.correct}>
+				        <Text style={styles.firstBtnText}>Correct</Text>
 				    </TouchableOpacity>
 				    <TouchableOpacity
-				      style={Platform.OS === 'ios' ? styles.iosIncorrectBtn : styles.AndroidIncorrectBtn}
-				      onPress={this.incorrect.bind(this)}>
-				        <Text style={styles.incorrectText}>Incorrect</Text>
+				      style={Platform.OS === 'ios' ? styles.iosSecondBtn : styles.AndroidSecondBtn}
+				      onPress={this.incorrect}>
+				        <Text style={styles.secondBtnText}>Incorrect</Text>
 				    </TouchableOpacity>
 				</View>
 			</View>
@@ -139,7 +156,7 @@ const styles = StyleSheet.create({
 	resultContainer: {
 		flex: 1,
 		flexDirection: 'column',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		padding: 40,
 		backgroundColor: lightgrey
 	},
@@ -195,7 +212,7 @@ const styles = StyleSheet.create({
 	flipBtn: {
 		textAlign: 'center'
 	},
-	iosCorrectBtn: {
+	iosFirstBtn: {
 		backgroundColor: white,
 		padding: 5,
 		borderWidth: 2,
@@ -206,7 +223,7 @@ const styles = StyleSheet.create({
 		marginRight: 40,
 		marginBottom: 30
 	},
-	AndroidCorrectBtn: {
+	AndroidFirstBtn: {
 		backgroundColor: white,
 		padding: 10,
 		borderWidth: 2,
@@ -219,7 +236,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
-	iosIncorrectBtn: {
+	iosSecondBtn: {
 		backgroundColor: purple,
 		padding: 7,
 		borderRadius: 7,
@@ -227,7 +244,7 @@ const styles = StyleSheet.create({
 		marginLeft: 40,
 		marginRight: 40
 	},
-	AndroidIncorrectBtn: {
+	AndroidSecondBtn: {
 		backgroundColor: purple,
 		padding: 10,
 		paddingLeft: 30,
@@ -237,12 +254,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
-	correctText: {
+	firstBtnText: {
 		color: purple,
 		fontSize: 22,
 		textAlign: 'center'
 	},
-	incorrectText: {
+	secondBtnText: {
 		color: white,
 		fontSize: 22,
 		textAlign: 'center'

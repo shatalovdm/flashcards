@@ -28,7 +28,7 @@ $ npm install
 $ npm start
 ```
 
-4. Follow the commands in the terminal to open the app on Android or iOS emulator. Also you can download the Expo app from Apple Store or Google Play Store and run the app on your phone. After downloading the Expo app use it to scan the QR code provided in the terminal. The app should run on your phone after a few seconds. 
+4. Follow the commands in the terminal to open the app in Android or iOS emulator. Also you can download the Expo app from Apple Store or Google Play Store and run the app on your phone. After downloading the Expo app use it to scan the QR code provided in the terminal. The app should run on your phone after a few seconds. 
 
 ## License
 

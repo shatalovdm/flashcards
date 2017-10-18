@@ -4,6 +4,7 @@ import { purple, white, brown, lightgrey } from '../utils/colors';
 import { connect } from 'react-redux';
 import { addDeck } from '../actions';
 import { saveDeckTitle } from '../utils/helpers';
+import { NavigationActions } from 'react-navigation';
 
 class AddDeck extends Component {
 	constructor(props) {

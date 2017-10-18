@@ -7,11 +7,9 @@ import { lightgrey, purple, white, brown, grey } from '../utils/colors';
 
 
 class Deck extends Component {
-	static navigationOptions = ({ navigation }) => {
-		return {
-			title: navigation.state.params.title,
-		}
-	}
+	static navigationOptions = ({ navigation }) => ({
+		title: navigation.state.params.title
+	});
 
 	commponentDidMount() {
 		getDeck(this.props.navigation.state.params.title)
